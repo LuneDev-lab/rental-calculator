@@ -4,7 +4,7 @@ import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 const ResultCard = ({ title, value, description, color, trend = 'neutral' }) => {
   
-  // ===================== A FUNÇÃO ESTÁ DE VOLTA AQUI =====================
+  // A FUNÇÃO PRECISA ESTAR AQUI DENTRO
   const getTrendIcon = () => {
     switch (trend) {
       case 'up':
@@ -15,12 +15,10 @@ const ResultCard = ({ title, value, description, color, trend = 'neutral' }) => 
         return <Minus className="w-4 h-4 text-gray-400" />;
     }
   };
-  // ======================================================================
 
   return (
     <div className="group relative">
       <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
-        {/* Background Gradient Effect */}
         <div className={`absolute inset-0 bg-gradient-to-r ${color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`}></div>
         
         <div className="relative z-10">
@@ -28,7 +26,7 @@ const ResultCard = ({ title, value, description, color, trend = 'neutral' }) => 
             <h4 className="text-sm font-semibold text-blue-200 uppercase tracking-wide">
               {title}
             </h4>
-            {/* A chamada da função está aqui, por isso ela precisa existir */}
+            {/* A chamada da função está aqui */}
             {getTrendIcon()} 
           </div>
           
@@ -43,7 +41,6 @@ const ResultCard = ({ title, value, description, color, trend = 'neutral' }) => 
           </p>
         </div>
 
-        {/* Decorative Border */}
         <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${color} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-2xl`}></div>
       </div>
     </div>
