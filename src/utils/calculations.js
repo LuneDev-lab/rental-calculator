@@ -16,7 +16,6 @@ const parseMoneyValue = (value) => {
   const numberValue = parseInt(String(value), 10) / 100;
   return isNaN(numberValue) ? 0 : numberValue;
 };
-
 // ==========================================================
 // O RESTANTE DO SEU ARQUIVO (calculateRentability, etc.)
 // PODE PERMANECER EXATAMENTE IGUAL
