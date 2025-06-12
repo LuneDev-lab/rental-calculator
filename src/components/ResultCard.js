@@ -4,17 +4,18 @@ import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 const ResultCard = ({ title, value, description, color, trend = 'neutral' }) => {
   
-
-  const getTrendColor = () => {
+  // ===================== A FUNÇÃO ESTÁ DE VOLTA AQUI =====================
+  const getTrendIcon = () => {
     switch (trend) {
       case 'up':
-        return 'text-green-400';
+        return <TrendingUp className="w-4 h-4 text-green-400" />;
       case 'down':
-        return 'text-red-400';
+        return <TrendingDown className="w-4 h-4 text-red-400" />;
       default:
-        return 'text-gray-400';
+        return <Minus className="w-4 h-4 text-gray-400" />;
     }
   };
+  // ======================================================================
 
   return (
     <div className="group relative">
@@ -27,7 +28,8 @@ const ResultCard = ({ title, value, description, color, trend = 'neutral' }) => 
             <h4 className="text-sm font-semibold text-blue-200 uppercase tracking-wide">
               {title}
             </h4>
-            {getTrendIcon()}
+            {/* A chamada da função está aqui, por isso ela precisa existir */}
+            {getTrendIcon()} 
           </div>
           
           <div className="mb-2">
