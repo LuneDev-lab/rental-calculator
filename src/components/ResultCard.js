@@ -3,16 +3,7 @@ import React from 'react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 const ResultCard = ({ title, value, description, color, trend = 'neutral' }) => {
-  const getTrendIcon = () => {
-    switch (trend) {
-      case 'up':
-        return <TrendingUp className="w-4 h-4 text-green-400" />;
-      case 'down':
-        return <TrendingDown className="w-4 h-4 text-red-400" />;
-      default:
-        return <Minus className="w-4 h-4 text-gray-400" />;
-    }
-  };
+  
 
   const getTrendColor = () => {
     switch (trend) {

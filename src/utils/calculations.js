@@ -3,22 +3,13 @@
 /**
  * Remove formatação de moeda e converte para número
  */
+// Substitua a sua função parseMoneyValue por esta
 const parseMoneyValue = (value) => {
-  if (!value) return 0;
-  
-  // Converte a string de centavos para número e divide por 100
+  if (!value) {
+    return 0;
+  }
   const numberValue = parseInt(String(value), 10) / 100;
-  
   return isNaN(numberValue) ? 0 : numberValue;
-
-  
-  // Remove R$, pontos e vírgulas, depois converte para número
-  const cleanValue = value
-    .replace(/R\$\s?/g, '')
-    .replace(/\./g, '')
-    .replace(/,/g, '.');
-  
-  return parseFloat(cleanValue) || 0;
 };
 
 /**
