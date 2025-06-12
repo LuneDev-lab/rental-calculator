@@ -4,6 +4,11 @@
  * Remove formatação de moeda e converte para número
  */
 // Substitua a sua função parseMoneyValue por esta
+// src/utils/calculations.js
+
+/**
+ * Converte uma string de centavos para um número de valor real
+ */
 const parseMoneyValue = (value) => {
   if (!value) {
     return 0;
@@ -11,6 +16,17 @@ const parseMoneyValue = (value) => {
   const numberValue = parseInt(String(value), 10) / 100;
   return isNaN(numberValue) ? 0 : numberValue;
 };
+
+// ==========================================================
+// O RESTANTE DO SEU ARQUIVO (calculateRentability, etc.)
+// PODE PERMANECER EXATAMENTE IGUAL
+// ==========================================================
+
+export const calculateRentability = (formData) => {
+  // ... seu código aqui ...
+};
+
+// ... etc ...
 
 /**
  * Calcula todos os indicadores de rentabilidade
