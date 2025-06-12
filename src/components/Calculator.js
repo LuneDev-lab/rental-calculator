@@ -1,4 +1,5 @@
 // src/components/Calculator.js
+import React, { useState } from 'react'; // <-- ESTA É A LINHA CORRIGIDA
 import { Calculator as CalcIcon, DollarSign, TrendingUp, Clock, BarChart3 } from 'lucide-react';
 import InputField from './InputField';
 import ResultCard from './ResultCard';

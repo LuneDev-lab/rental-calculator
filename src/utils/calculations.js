@@ -1,12 +1,6 @@
 // src/utils/calculations.js
 
 /**
- * Remove formatação de moeda e converte para número
- */
-// Substitua a sua função parseMoneyValue por esta
-// src/utils/calculations.js
-
-/**
  * Converte uma string de centavos para um número de valor real
  */
 const parseMoneyValue = (value) => {
@@ -16,29 +10,20 @@ const parseMoneyValue = (value) => {
   const numberValue = parseInt(String(value), 10) / 100;
   return isNaN(numberValue) ? 0 : numberValue;
 };
-// ==========================================================
-// O RESTANTE DO SEU ARQUIVO (calculateRentability, etc.)
-// PODE PERMANECER EXATAMENTE IGUAL
-// ==========================================================
 
-export const calculateRentability = (formData) => {
-  // ... seu código aqui ...
-};
-
-// ... etc ...
 
 /**
  * Calcula todos os indicadores de rentabilidade
  */
-export const calculateRentability = (formData) => {
+export const calculateRentability = (formData) => { // <-- ESTA É A ÚNICA DEFINIÇÃO, A CORRETA
   const propertyValue = parseMoneyValue(formData.propertyValue);
   const monthlyRent = parseMoneyValue(formData.monthlyRent);
   const monthlyCosts = parseMoneyValue(formData.monthlyCosts);
   const downPayment = parseMoneyValue(formData.downPayment);
 
   // Validação básica
-  if (propertyValue <= 0 || monthlyRent <= 0) {
-    throw new Error('Valores inválidos para cálculo');
+  if (propertyValue <= 0 || monthlyRent < 0) { // Permite aluguel 0, mas não negativo
+    return null; // Retorna nulo para indicar que o cálculo não pôde ser feito
   }
 
   // Lucro líquido mensal
@@ -54,9 +39,9 @@ export const calculateRentability = (formData) => {
   const investmentBase = downPayment > 0 ? downPayment : propertyValue;
   const roi = ((netMonthlyProfit * 12) / investmentBase) * 100;
 
-  // Payback - tempo para recuperar o investimento
-  const paybackMonths = investmentBase / netMonthlyProfit;
-  const paybackYears = paybackMonths / 12;
+  // Payback - tempo para recuperar o investimento (evita divisão por zero)
+  const paybackMonths = netMonthlyProfit > 0 ? investmentBase / netMonthlyProfit : Infinity;
+  const paybackYears = paybackMonths !== Infinity ? paybackMonths / 12 : Infinity;
 
   // Projeções anuais
   const annualNetProfit = netMonthlyProfit * 12;
@@ -68,7 +53,7 @@ export const calculateRentability = (formData) => {
     propertyValue,
     monthlyRent,
     monthlyCosts,
-    downPayment: downPayment || propertyValue,
+    downPayment: investmentBase,
     
     // Lucros
     netMonthlyProfit,
@@ -85,8 +70,8 @@ export const calculateRentability = (formData) => {
     paybackMonths,
     paybackYears,
     
-    // Análises adicionais
-    profitMargin: (netMonthlyProfit / monthlyRent) * 100,
+    // Análises adicionais (evita divisão por zero)
+    profitMargin: monthlyRent > 0 ? (netMonthlyProfit / monthlyRent) * 100 : 0,
     grossYield: (monthlyRent * 12 / propertyValue) * 100,
     netYield: (netMonthlyProfit * 12 / propertyValue) * 100,
     
@@ -129,6 +114,7 @@ const getRecommendation = (monthlyRent, payback, roi) => {
  * Calcula projeção de lucros futuros
  */
 export const calculateProjection = (results, years = 5) => {
+  if (!results) return []; // Retorna array vazio se não houver resultados
   const projection = [];
   
   for (let year = 1; year <= years; year++) {
@@ -138,7 +124,7 @@ export const calculateProjection = (results, years = 5) => {
     projection.push({
       year,
       cumulativeProfit,
-      roi,
+      roi: isFinite(roi) ? roi : 0,
       breakEven: year >= results.paybackYears
     });
   }
@@ -160,6 +146,7 @@ export const compareScenarios = (scenarios) => {
  * Calcula score do investimento (0-100)
  */
 const calculateInvestmentScore = (results) => {
+  if (!results) return 0; // Retorna 0 se não houver resultados
   let score = 0;
   
   // Rentabilidade mensal (40% do score)
